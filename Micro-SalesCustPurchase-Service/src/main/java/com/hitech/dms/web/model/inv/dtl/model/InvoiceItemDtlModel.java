@@ -1,0 +1,38 @@
+/**
+ * 
+ */
+package com.hitech.dms.web.model.inv.dtl.model;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import lombok.Data;
+
+/**
+ * @author dinesh.jakhar
+ *
+ */
+@Data
+public class InvoiceItemDtlModel {
+	private BigInteger machineItemId;
+	private String itemNo;
+	private String itemDesc;
+	private String chassisNo;
+	private String vinNo;
+	private String engineNo;
+	private Integer qty;
+	private String hsnCode;
+	private BigDecimal unitPrice;
+	private BigDecimal discountAmnt;
+	private BigDecimal igst_per;
+	private BigDecimal igst_amount;
+	private BigDecimal cgst_per;
+	private BigDecimal cgst_amount;
+	private BigDecimal sgst_per;
+	private BigDecimal sgst_amount;
+	private BigDecimal total_gst_per;
+	private BigDecimal total_gst_amount;
+	private BigDecimal assessableAmnt;
+	private BigDecimal totalAmnt;
+	private String remarks;
+}

@@ -1,0 +1,14 @@
+com\hitech\filters\StatePrinterGatewayFilterFactory.class
+com\hitech\filters\StatePrinterGatewayFilter.class
+com\hitech\controller\FallbackController.class
+com\hitech\filters\StripBasePathGatewayFilterFactory.class
+com\hitech\filters\CORSFilter.class
+com\hitech\config\ZuulConfiguration.class
+com\hitech\config\Resilience4JConfiguration.class
+com\hitech\config\DynamicRewriteRoute.class
+com\hitech\filters\PrePostGlobalFilter.class
+com\hitech\filters\CustomFilter.class
+com\hitech\config\AsyncConfig.class
+com\hitech\config\CircuitBreakerFactoryCustomizer.class
+com\hitech\ZuulApiGetWayApplication.class
+com\hitech\filters\CustomFilter$Config.class

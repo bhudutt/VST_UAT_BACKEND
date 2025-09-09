@@ -1,0 +1,107 @@
+package com.hitech.dms.web.controller.enquiry.advanceReport;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mobile.device.Device;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hitech.dms.app.api.response.HeaderResponse;
+import com.hitech.dms.app.api.response.MessageCodeResponse;
+import com.hitech.dms.web.dao.advancetrackingreport.AdvanceTrackingReportDao;
+import com.hitech.dms.web.model.advancereport.AdvanceReportSearchListResultResponseModel;
+import com.hitech.dms.web.model.advancereport.AdvanceTrackingReportRequestModel;
+import com.hitech.dms.web.model.advancereport.FinancierResponseListModel;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
+/**
+ * @author Sunil.Singh
+ *
+ */
+
+
+@Validated
+@RestController
+@RequestMapping("/advanceTrackingReport")
+@SecurityRequirement(name = "hitechApis")
+public class SearchAdvanceTrackingReportController {
+	
+private static final Logger logger = LoggerFactory.getLogger(SearchAdvanceTrackingReportController.class);
+@Autowired
+private AdvanceTrackingReportDao advanceTrackingReportDao;
+
+private SimpleDateFormat getSimpleDateFormat() {
+	return new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+}
+
+@PostMapping(value = "/Search")
+public ResponseEntity<?> Search(@RequestBody AdvanceTrackingReportRequestModel requestModel,
+		OAuth2Authentication authentication, Device device, HttpServletRequest request) {
+	String userCode = null;
+	if (authentication != null) {
+		userCode = authentication.getUserAuthentication().getName();
+	}
+	
+	HeaderResponse userAuthResponse = new HeaderResponse();
+	MessageCodeResponse codeResponse = new MessageCodeResponse();
+	SimpleDateFormat formatter = getSimpleDateFormat();
+	
+	AdvanceReportSearchListResultResponseModel responseModel = advanceTrackingReportDao.Search(userCode,
+			requestModel);
+	if (responseModel != null && responseModel.getSearchResult() != null
+			&& !responseModel.getSearchResult().isEmpty()) {
+		codeResponse.setCode("EC200");
+		codeResponse.setDescription("Avance Tracking Search List on " + formatter.format(new Date()));
+		codeResponse.setMessage("Avance Tracking Search Successfully fetched");
+	} else {
+		codeResponse.setCode("EC200");
+		codeResponse.setDescription("Unsuccessful on " + formatter.format(new Date()));
+		codeResponse.setMessage("Avance Tracking Search Not Fetched or Data Not found.");
+	}
+	userAuthResponse.setResponseCode(codeResponse);
+	userAuthResponse.setResponseData(responseModel);
+	return ResponseEntity.ok(userAuthResponse);
+}
+
+
+@GetMapping("/fetchFinancierList")
+public ResponseEntity<?> fetchFinancierList(
+		 OAuth2Authentication authentication) {
+	String userCode = null;
+	if (authentication != null) {
+		userCode = authentication.getUserAuthentication().getName();
+	}
+	HeaderResponse userAuthResponse = new HeaderResponse();
+	MessageCodeResponse codeResponse = new MessageCodeResponse();
+	
+	SimpleDateFormat formatter = getSimpleDateFormat();
+	List<FinancierResponseListModel> responseModelList = advanceTrackingReportDao.fetchFinancierList(userCode,null);
+	if (responseModelList != null && !responseModelList.isEmpty()) {
+		codeResponse.setCode("EC200");
+		codeResponse.setDescription("Fetch Financier List on " + formatter.format(new Date()));
+		codeResponse.setMessage("Financier List Successfully fetched");
+	} else {
+		codeResponse.setCode("EC200");
+		codeResponse.setDescription("Unsuccessful on " + formatter.format(new Date()));
+		codeResponse.setMessage("Financier List Not Fetched or Data not Found.");
+	}
+	userAuthResponse.setResponseCode(codeResponse);
+	userAuthResponse.setResponseData(responseModelList);
+	return ResponseEntity.ok(userAuthResponse);
+}
+
+}

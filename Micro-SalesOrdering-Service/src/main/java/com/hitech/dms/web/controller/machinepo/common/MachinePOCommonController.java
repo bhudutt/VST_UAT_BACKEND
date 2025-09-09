@@ -1,0 +1,124 @@
+/**
+ * 
+ */
+package com.hitech.dms.web.controller.machinepo.common;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hitech.dms.app.api.response.HeaderResponse;
+import com.hitech.dms.app.api.response.MessageCodeResponse;
+import com.hitech.dms.web.dao.machinepo.common.MachinePOCommonDao;
+import com.hitech.dms.web.entity.machinepo.MachinePOStatusEntity;
+import com.hitech.dms.web.model.machinepo.orderTo.request.MachinePOOrderToRequestModel;
+import com.hitech.dms.web.model.machinepo.orderTo.response.MachinePOOrderToResponseModel;
+import com.hitech.dms.web.model.machinepo.plant.response.PoPlantRequstModel;
+import com.hitech.dms.web.model.machinepo.plant.response.PoPlantResponseModel;
+
+/**
+ * @author dinesh.jakhar
+ *
+ */
+@Validated
+@RestController
+@RequestMapping("/common")
+public class MachinePOCommonController {
+	private static final Logger logger = LoggerFactory.getLogger(MachinePOCommonController.class);
+
+	@Autowired
+	private MachinePOCommonDao machinePOCommonDao;
+
+	private SimpleDateFormat getSimpleDateFormat() {
+		return new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+	}
+
+	@PostMapping("/fetchPOTOTypeList")
+	public ResponseEntity<?> fetchPOTOTypeList(@RequestBody MachinePOOrderToRequestModel requestModel,
+			OAuth2Authentication authentication) {
+		String userCode = null;
+		if (authentication != null) {
+			userCode = authentication.getUserAuthentication().getName();
+		}
+		HeaderResponse userAuthResponse = new HeaderResponse();
+		MessageCodeResponse codeResponse = new MessageCodeResponse();
+		SimpleDateFormat formatter = getSimpleDateFormat();
+		List<MachinePOOrderToResponseModel> responseModelList = machinePOCommonDao.fetchPOTOTypeList(userCode,
+				requestModel);
+		if (responseModelList != null && !responseModelList.isEmpty()) {
+			codeResponse.setCode("EC200");
+			codeResponse.setDescription("Fetch PO To Type List on " + formatter.format(new Date()));
+			codeResponse.setMessage("Machine PO To Type List Successfully fetched");
+		} else {
+			codeResponse.setCode("EC500");
+			codeResponse.setDescription("Unsuccessful on " + formatter.format(new Date()));
+			codeResponse.setMessage("Machine PO To Type List Not Fetched or server side error.");
+		}
+		userAuthResponse.setResponseCode(codeResponse);
+		userAuthResponse.setResponseData(responseModelList);
+		return ResponseEntity.ok(userAuthResponse);
+	}
+
+	@PostMapping("/fetchPOPlantList")
+	public ResponseEntity<?> fetchPOPlantList(@RequestBody PoPlantRequstModel requestModel,
+			OAuth2Authentication authentication) {
+		String userCode = null;
+		if (authentication != null) {
+			userCode = authentication.getUserAuthentication().getName();
+		}
+		HeaderResponse userAuthResponse = new HeaderResponse();
+		MessageCodeResponse codeResponse = new MessageCodeResponse();
+		SimpleDateFormat formatter = getSimpleDateFormat();
+		List<PoPlantResponseModel> responseModelList = machinePOCommonDao.fetchPOPlantList(userCode, requestModel);
+		if (responseModelList != null && !responseModelList.isEmpty()) {
+			codeResponse.setCode("EC200");
+			codeResponse.setDescription("Fetch PO Plant List on " + formatter.format(new Date()));
+			codeResponse.setMessage("Machine PO Plant List Successfully fetched");
+		} else {
+			codeResponse.setCode("EC500");
+			codeResponse.setDescription("Unsuccessful on " + formatter.format(new Date()));
+			codeResponse.setMessage("Machine PO Plant List Not Fetched or server side error.");
+		}
+		userAuthResponse.setResponseCode(codeResponse);
+		userAuthResponse.setResponseData(responseModelList);
+		return ResponseEntity.ok(userAuthResponse);
+	}
+
+	@GetMapping("/fetchMachinePOStatusDTL/{poStatusId}")
+	public ResponseEntity<?> fetchMachinePOStatusDTL(@PathVariable Integer poStatusId,
+			OAuth2Authentication authentication) {
+		String userCode = null;
+		if (authentication != null) {
+			userCode = authentication.getUserAuthentication().getName();
+		}
+		HeaderResponse userAuthResponse = new HeaderResponse();
+		MessageCodeResponse codeResponse = new MessageCodeResponse();
+		SimpleDateFormat formatter = getSimpleDateFormat();
+		MachinePOStatusEntity responseModel = machinePOCommonDao.fetchMachinePOStatusDTL(userCode, poStatusId);
+		if (responseModel != null) {
+			codeResponse.setCode("EC200");
+			codeResponse.setDescription("Fetch PO Status Detail on " + formatter.format(new Date()));
+			codeResponse.setMessage("Machine PO Status Detail Successfully fetched");
+		} else {
+			codeResponse.setCode("EC500");
+			codeResponse.setDescription("Unsuccessful on " + formatter.format(new Date()));
+			codeResponse.setMessage("Machine PO Status Detail Not Fetched or server side error.");
+		}
+		userAuthResponse.setResponseCode(codeResponse);
+		userAuthResponse.setResponseData(responseModel);
+		return ResponseEntity.ok(userAuthResponse);
+	}
+}

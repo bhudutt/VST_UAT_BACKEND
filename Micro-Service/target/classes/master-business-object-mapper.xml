@@ -1,0 +1,114 @@
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net  http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<date-format>dd/MM/yyyy HH:mm</date-format>
+		<trim-strings>true</trim-strings>
+	</configuration>
+
+	<!-- <mapping map-id="IndentCreateMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.stock.indent.IndentHdrEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.indent.create.request.IndentCreateRequestModel
+		</class-b>
+	</mapping> -->
+	
+	<mapping map-id="storeMasterMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.model.storemaster.create.request.StoreMasterModel
+		</class-a>
+		<class-b>com.hitech.dms.web.entity.master.storemaster.request.StoreMasterEntity
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="delayReasonMasterMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.model.delayreason.create.request.DelayReasonRequestName
+		</class-a>
+		<class-b>com.hitech.dms.web.entity.master.delayreason.request.DelayReasonMasterEntity
+		</class-b>
+	</mapping>
+	
+	
+	
+	<mapping map-id="branchPartMasterDetailsMapId"
+		type="bi-directional">
+		<class-a>com.hitech.dms.web.model.partmaster.create.request.PartMasterFormRequestModel
+		</class-a>
+		<class-b>com.hitech.dms.web.entity.partmaster.create.request.BranchPartMasterEntity
+		</class-b>
+		<field map-id="branchBinMapId">
+			<a>partStockBinModelList</a>
+			<b>partStockBinEntityList</b>
+		</field>
+		<field map-id="mtbPartMasterMapId">
+			<a>adminPartMasterModel</a>
+			<b>adminPartMasterEntity</b>
+		</field>
+		<field>
+			<a>seasonal</a>
+			<b>isSeasonal</b>
+		</field>
+		<field>
+			<a date-format="dd/MM/yyyy">seasonTo</a>
+			<b date-format="dd/MM/yyyy">seasonTo</b>
+		</field>
+		<field>
+			<a date-format="dd/MM/yyyy">seasonFrom</a>
+			<b date-format="dd/MM/yyyy">seasonFrom</b>
+		</field>
+	</mapping>
+	
+	<mapping map-id="branchBinMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.partmaster.create.request.PartStockBinEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.partmaster.create.request.PartStockBinModel
+		</class-b>
+	</mapping>
+	
+		<mapping map-id="ActivityGstClaimCreateResMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.activityGstClaim.ActivityGstClaimInvoiceHdrEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.activity.gstclaim.request.ActivityClaimInvoiceRequestModel
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="mtbPartMasterMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.model.partmaster.create.request.AdminPartMasterModel
+		</class-a>
+		<class-b>com.hitech.dms.web.entity.partmaster.create.request.AdminPartMasterEntity
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="quotationMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.quotation.create.request.ServiceQuotationEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.servicequotation.create.request.ServiceQuotationModel
+		</class-b>
+		<field>
+			<a>kilometerReading</a>
+			<b>currentReading</b>
+		</field>
+		<field>
+			<a>serviceVerbatim</a>
+			<b>verbatimList</b>
+		</field>
+		<field>
+			<a>serviceQuotationLabrEntity</a>
+			<b>labourList</b>
+		</field>
+		<field>
+			<a>serviceQuotationPartEntity</a>
+			<b>partList</b>
+		</field>
+		<field>
+			<a>serviceQuotationOutsideLabrEntity</a>
+			<b>outsideLabourList</b>
+		</field>
+	</mapping>
+	
+</mappings>                                                                                                              
+                                                                                                                         
+                                                                                                                         
+	                                                                                                                     
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         

@@ -1,0 +1,88 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+version: '3'
+
+#Define services
+services:
+   #Back-end Spring Boot Application
+  Micro-Config-Server:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-Config-Server
+    container_name: Micro-Config-Server
+    ports:
+      - 8012:8012 # Forward the exposed port 8012 on the container to port 8012 on the host machine
+  Micro-Eureka-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-Eureka-Service
+    container_name: Micro-Eureka-Service
+    ports:
+      - 8761:8761 # Forward the exposed port 8080 on the container to port 8080 on the host machine
+  
+  Micro-Hystrix-Dashboard:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-Hystrix-Dashboard
+    container_name: Micro-Hystrix-Dashboard
+    ports:
+      - 9195:9195 # Forward the exposed port 9195 on the container to port 9195 on the host machine
+  
+  Micro-Auth-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-Auth-Service
+    container_name: Micro-Auth-Service
+    ports:
+      - 9191:9191 # Forward the exposed port 9191 on the container to port 9191 on the host machine 
+   
+  Micro-Common-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-Common-Service
+    container_name: Micro-Common-Service
+    ports:
+      - 8083:8083 # Forward the exposed port 8083 on the container to port 8083 on the host machine 
+    
+  Micro-Admin-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-Admin-Service
+    container_name: Micro-Admin-Service
+    ports:
+      - 9090:9090 # Forward the exposed port 9090 on the container to port 9090 on the host machine 
+  
+  Micro-Gateway-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-Gateway-Service
+    container_name: Micro-Gateway-Service
+    ports:
+      - 8080:8080 # Forward the exposed port 8080 on the container to port 8080 on the host machine 
+  
+  Micro-PresaleActivity-Report-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-PresaleActivity-Report-Service
+    container_name: Micro-PresaleActivity-Report-Service
+    ports:
+      - 8089:8089 # Forward the exposed port 8089 on the container to port 8089 on the host machine 
+  
+  Micro-PresaleActivity-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-PresaleActivity-Service
+    container_name: Micro-PresaleActivity-Service
+    ports:
+      - 8088:8088 # Forward the exposed port 8088 on the container to port 8088 on the host machine 
+  
+  Micro-PresaleEnquiry-Report-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-PresaleEnquiry-Report-Service
+    container_name: Micro-PresaleEnquiry-Report-Service
+    ports:
+      - 8086:8086 # Forward the exposed port 8086 on the container to port 8086 on the host machine 
+  
+  Micro-PresaleEnquiry-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-PresaleEnquiry-Service
+    container_name: Micro-PresaleEnquiry-Service
+    ports:
+      - 8087:8087 # Forward the exposed port 8087 on the container to port 8087 on the host machine 
+  
+  Micro-SalesOrdering-Service:
+    #The docker file in scrum-app build the jar and provides the docker image with the following name.
+    build: ./Micro-SalesOrdering-Service
+    container_name: Micro-SalesOrdering-Service
+    ports:
+      - 8090:8090 # Forward the exposed port 8090 on the container to port 8090 on the host machine 

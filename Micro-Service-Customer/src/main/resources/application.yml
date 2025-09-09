@@ -1,0 +1,115 @@
+server:
+  port: 8096
+  servlet:
+    context-path: /servicecustomer
+    session:
+      cookie:
+        http-only: true
+        secure: false
+        
+  error: 
+    include-message: always
+    include-binding-errors: always
+
+#logging: 
+#   level: 
+#      org.springframework.web: ERROR
+#      com.hitech.dms: DEBUG
+
+###################################  SQLSerer Database as persistent Database  ##############################
+spring:
+  application:
+    name: service-customer
+  devtools:
+    restart:
+      enabled: false
+#  profiles:
+#   active: prod
+  main:
+    banner-mode: off
+  session:
+    store-type: jdbc
+    jdbc:
+      table-name: SPRING_SESSION
+      initialize-schema: always
+      
+  thymeleaf:
+     cache: false
+     
+  servlet:
+     multipart:
+        enabled: true
+        # Threshold after which files are written to disk.
+        file-size-threshold: 2KB
+        # Max file size.
+        max-file-size: 200MB
+        # Max Request Size
+        max-request-size: 215MB
+
+jdbc:
+   url: jdbc:sqlserver://192.168.17.1:1433;databaseName=VST_DMS
+   username: admin
+   password: hrsl@2017#
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+  instance:
+    prefer-ip-address: true
+    #lease-expiration-duration-in-seconds: 1
+    #lease-renewal-interval-in-seconds: 2
+
+#oauth2 configuration
+security:
+   oauth2:
+      resource: 
+         token-info-uri: http://localhost:9191/auth-api/oauth/check_token
+      client:
+         client-id: vst-dms-view-client
+         client-secret: cnhindglobal
+
+## File Storage Properties
+# All files uploaded through the REST API will be stored in this directory
+file:
+   upload-dir: 
+      Temp: C:/VST-DMS-APPS/FILES/Temp/
+      Main: C:/VST-DMS-APPS/FILES/
+      JobCardReport:  C:/VST-DMS-APPS/REPORTS/jobcard preInvoice/
+      JobCardOpenReport:  C:/VST-DMS-APPS/REPORTS/JobCard Open/
+      JobCardBillingReport: C:/VST-DMS-APPS/REPORTS/JobCard Billing/
+      jobCardReports: C:/VST-DMS-APPS/REPORTS/jobCardExcel/
+      BillingReports: C:/VST-DMS-APPS/REPORTS/Billing/
+      reminderServiceTemplate: C:/VST-DMS-APPS/REPORTS/Reminder-Service/Excel/
+      servicePlanStatusTemplate: C:/VST-DMS-APPS/REPORTS/Plan-Status/Excel/
+      historyCardServiceTemplate: C:/VST-DMS-APPS/REPORTS/History-Card/Excel/
+      serviceJobcardImageDownload: C:/VST-DMS-APPS/FILES/dms-service-customer/images/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        exclude: env,beans
+  endpoint:
+    auditevents:
+      enabled: true
+         
+feign:
+  circuitbreaker:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 160000000
+        readTimeout: 160000000
+        loggerLevel: BASIC
+      postFeignClient:
+        loggerLevel: FULL
+        
+springdoc:
+  version: '@springdoc.version@'

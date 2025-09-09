@@ -1,0 +1,151 @@
+server:
+  port: 9099
+  servlet:
+    context-path: /servicespare
+    session:
+      cookie:
+        http-only: true
+        secure: false
+        
+  error: 
+    include-message: always
+    include-binding-errors: always
+
+  
+#logging: 
+#   level: 
+#      org.springframework.web: ERROR
+#      com.hitech.dms: DEBUG
+
+###################################  SQLSerer Database as persistent Database  ##############################
+spring:
+  application:
+    name: service-spare
+  devtools:
+    restart:
+      enabled: false
+#  profiles:
+#   active: prod
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+  session:
+    store-type: jdbc
+    jdbc:
+      table-name: SPRING_SESSION
+      initialize-schema: always
+      
+  thymeleaf:
+     cache: false
+     
+  servlet:
+     multipart:
+        enabled: true
+        # Threshold after which files are written to disk.
+        file-size-threshold: 2KB
+        # Max file size.
+        max-file-size: 200MB
+        # Max Request Size
+        max-request-size: 215MB
+
+jdbc:
+   url: jdbc:sqlserver://172.16.1.65:1433;databaseName=VST_DMS_PROD
+   username: sa
+   password: VST.2022#
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+  instance:
+    prefer-ip-address: true
+    #lease-expiration-duration-in-seconds: 1
+    #lease-renewal-interval-in-seconds: 2
+
+#oauth2 configuration
+security:
+   oauth2:
+      resource: 
+         token-info-uri: http://localhost:9191/auth-api/oauth/check_token
+      client:
+         client-id: vst-dms-view-client
+         client-secret: cnhindglobal
+
+## File Storage Properties
+# All files uploaded through the REST API will be stored in this directory
+file:
+   upload-dir: 
+      Temp: C:/VST-DMS-APPS/FILES/Temp/
+      Main: C:/VST-DMS-APPS/FILES/
+      SpareTemplate: C:/VST-DMS-APPS/template/template/
+      customerTemplate: C:/VST-DMS-APPS/template/customer-order/
+      DcTemplate: C:/VST-DMS-APPS/REPORTS/Delivery Challan/Excel/
+      DcPdfTemplate: C:/VST-DMS-APPS/REPORTS/Delivery Challan/pdf/
+      InvoiceReturnDOc: C:/VST-DMS-APPS/template/InvoiceReturn/
+      SparePoPrintReport:  C:/VST-DMS-APPS/REPORTS/SparePo/Print/
+      CouponManagementReport: C:/VST-DMS-APPS/REPORTS/CouponManagement/
+      InvoiceReturnReport: C:/VST-DMS-APPS/REPORTS/InvoiceReturn/
+      CoTemplate: C:/VST-DMS-APPS/REPORTS/Customer-Order/Excel/
+      Grn: C:/VST-DMS-APPS/REPORTS/spare/Excel/Grn/
+      GrnPrint: C:/VST-DMS-APPS/REPORTS/spare/Print/Grn/
+      InventoryTransfer: C:/VST-DMS-APPS/REPORTS/spare/Excel/InventoryTransfer/
+      Claim: C:/VST-DMS-APPS/REPORTS/spare/Excel/Claim/
+      BranchTransferIndent: C:/VST-DMS-APPS/REPORTS/spare/Excel/BranchTransfer/Indent/
+      BranchTransferIssue: C:/VST-DMS-APPS/REPORTS/spare/Excel/BranchTransfer/Issue/
+      BranchTransferReceipt: C:/VST-DMS-APPS/REPORTS/spare/Excel/BranchTransfer/Receipt/
+      PickList: C:/VST-DMS-APPS/REPORTS/spare/Print/Picklist/
+      SaleInvoice: C:/VST-DMS-APPS/REPORTS/spare/Excel/SaleInvoice/
+      SaleInvoicePrint: C:/VST-DMS-APPS/REPORTS/spare/Print/SaleInvoice/
+      SpareClaimUpload: C:/VST-DMS-APPS/Micro-Frontend_Apps/dms-service-requisition/assets
+      InvoiceQRCodeUpload: C:/VST-DMS-APPS/Micro-Frontend_Apps/dms-service-requisition/assets/invoiceQR
+      cdTemplate: C:/VST-DMS-APPS/REPORTS/Credit-Debit-Note/pdf/
+      pvTemplate: C:/VST-DMS-APPS/REPORTS/Payment-Voucher/pdf/
+      pvExcelTemplate: C:/VST-DMS-APPS/REPORTS/Payment-Voucher/Excel/
+      cdnExcelTemplate: C:/VST-DMS-APPS/REPORTS/Credit-Debit-Note/Excel/
+      partInvoiceTemplate: C:/VST-DMS-APPS/REPORTS/Part-Invoice/Excel/
+      kpdOrderStatusTemplate: C:/VST-DMS-APPS/REPORTS/Kpd-Order-Status/Excel/
+      partGrnTemplate: C:/VST-DMS-APPS/REPORTS/Part-Grn/Excel/
+      partStockTemplate: C:/VST-DMS-APPS/REPORTS/Part-Stock/Excel/
+      poStatusTemplate: C:/VST-DMS-APPS/REPORTS/Po-Status/Excel/
+      aprReturnTemplate: C:/VST-DMS-APPS/REPORTS/Apr-Return/Excel/
+      aprPdfTemplate: C:/VST-DMS-APPS/REPORTS/Apr-Return/Pdf/
+
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        exclude: env,beans
+  endpoint:
+    auditevents:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true    
+         
+feign:
+  circuitbreaker:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 160000000
+        readTimeout: 160000000
+        loggerLevel: BASIC
+      postFeignClient:
+        loggerLevel: FULL
+        
+springdoc:
+  version: '@springdoc.version@'
+  api-docs: 
+    path: /api-doc
+  swagger-ui: 
+    path: /swagger-ui-custom.html 

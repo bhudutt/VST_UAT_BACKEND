@@ -1,0 +1,57 @@
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net  http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<date-format>dd/MM/yyyy HH:mm</date-format>
+		<trim-strings>true</trim-strings>
+	</configuration>
+
+	<mapping map-id="MachinePOMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.machinepo.MachinePOHdrEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.machinepo.create.request.MachinePOCreateRequestModel
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="SalesGrnMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.sales.grn.SalesMachineGrnHDREntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.grn.create.request.SalesGrnCreateRequestModel
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="SalesPRMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.sales.purchase.ret.SalesMachinePurchaseReturnEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.pr.create.request.PurchaseReturnCreateRequestModel
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="SalesPRINVMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.sales.purchase.ret.inv.SalesMachinePurchaseReturnInvEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.pr.inv.create.request.PrForInvoiceCreateRequestModel
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="PdiMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.pdi.PdiEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.pdi.create.request.PdiCreateRequestModel
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="MachinePOUpdateMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.machinepo.MachinePOHdrEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.machinepo.update.request.MachinePOUpdateRequestModel
+		</class-b>
+	</mapping>
+
+</mappings>                                                                                                              
+                                                                                                                         
+                                                                                                                         
+	                                                                                                                     
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         

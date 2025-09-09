@@ -1,0 +1,73 @@
+/**
+ * 
+ */
+package com.hitech.dms.web.controller.productdivision.list;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hitech.dms.app.api.response.HeaderResponse;
+import com.hitech.dms.app.api.response.MessageCodeResponse;
+import com.hitech.dms.web.dao.productdivision.list.ProductDivisionListDao;
+import com.hitech.dms.web.model.productdivision.request.ProductDivisionListRequestModel;
+import com.hitech.dms.web.model.productdivision.response.ProductDivisionListResponseModel;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
+/**
+ * @author dinesh.jakhar
+ *
+ */
+@Validated
+@RestController
+@RequestMapping("/productdivision")
+@SecurityRequirement(name = "hitechApis")
+public class ProductDivisionListController {
+	private static final Logger logger = LoggerFactory.getLogger(ProductDivisionListController.class);
+
+	private SimpleDateFormat getSimpleDateFormat() {
+		return new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+	}
+
+	@Autowired
+	private ProductDivisionListDao productDivisionListDao;
+
+	@PostMapping("/list")
+	public ResponseEntity<?> fetchPcUnderUserList(@RequestBody ProductDivisionListRequestModel requestModel,
+			OAuth2Authentication authentication) {
+		String userCode = null;
+		if (authentication != null) {
+			userCode = authentication.getUserAuthentication().getName();
+		}
+		HeaderResponse userAuthResponse = new HeaderResponse();
+		MessageCodeResponse codeResponse = new MessageCodeResponse();
+		SimpleDateFormat formatter = getSimpleDateFormat();
+		List<ProductDivisionListResponseModel> responseModelList = productDivisionListDao
+				.fetchPcForBranchDealerList(userCode, requestModel);
+		if (responseModelList != null && !responseModelList.isEmpty()) {
+			codeResponse.setCode("EC200");
+			codeResponse.setDescription(
+					"Fetch Product Division List Under Dealer/Pc Id on " + formatter.format(new Date()));
+			codeResponse.setMessage("Product Division List Under Dealer/Pc Id Successfully fetched");
+		} else {
+			codeResponse.setCode("EC200");
+			codeResponse.setDescription("Unsuccessful on " + formatter.format(new Date()));
+			codeResponse.setMessage("Product Division List Under Dealer/Pc Id Not Fetched or server side error.");
+		}
+		userAuthResponse.setResponseCode(codeResponse);
+		userAuthResponse.setResponseData(responseModelList);
+		return ResponseEntity.ok(userAuthResponse);
+	}
+}

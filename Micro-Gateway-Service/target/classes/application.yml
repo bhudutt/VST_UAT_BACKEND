@@ -1,0 +1,315 @@
+context:
+  path: /gateway
+spring:
+  application:
+    name: gateway-service
+#  profiles:
+#    active: prod
+#  webflux:
+#    base-path: /gateway
+  main:
+    banner-mode: off
+  cloud:
+    gateway:
+#      default-filters:
+#        - name: CustomFilter
+#        - StripPrefix=1
+      #routes:
+        #- id: auth-server
+          #uri: http://localhost:9191/
+          #uri: lb://AUTH-SERVER
+         # predicates:
+         #   - Path=/auth-api/**
+          #filters:
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: AUTH-SERVER
+          #      fallbackuri: forward:/authFailed
+      routes:
+        - id: auth-server
+          #uri: http://localhost:9191/
+          uri: lb://AUTH-SERVER
+          predicates:
+            - Path=${context.path}/auth-api/oauth/token, ${context.path}/auth-api/**
+            - Method= POST, GET, DELETE  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #   - StripPrefix=1
+          #   - CustomFilter
+          #  - name: CircuitBreakerStatePrinter
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: authFallbackCommand
+          #      fallbackuri: forward:/authFailed 
+        - id: administration-server
+          #uri: http://localhost:9191/
+          uri: lb://administration-server
+          predicates:
+            - Path=${context.path}/administration/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreakerStatePrinter
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: adminFallbackCommand
+          #      fallbackuri: forward:/authFailed 
+        - id: administration-server-report
+          #uri: http://localhost:9191/
+          uri: lb://administration-server-report
+          predicates:
+            - Path=${context.path}/administrationReport/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreakerStatePrinter
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: adminFallbackCommand
+          #      fallbackuri: forward:/authFailed
+        - id: common-services
+          uri: lb://common-services
+          predicates:
+            - Path=${context.path}/common/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: common-services
+          #      fallbackuri: forward:/orderFallBack  
+        - id: presales-enquiry-report
+          uri: lb://presales-enquiry-report
+          predicates:
+            - Path=${context.path}/presaleEnquiryReport/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: presales-report-services
+          #      fallbackuri: forward:/orderFallBack
+        - id: presales-enquiry
+          uri: lb://presales-enquiry
+          predicates:
+            - Path=${context.path}/presaleEnquiry/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: presales-services
+          #      fallbackuri: forward:/orderFallBack  
+        - id: presales-activity-report
+          uri: lb://presales-activity-report
+          predicates:
+            - Path=${context.path}/presaleActivityReport/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: presales-acitvities-report
+          #      fallbackuri: forward:/orderFallBack
+        - id: presales-activity
+          uri: lb://presales-activity
+          predicates:
+            - Path=${context.path}/presaleActivity/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: presales-acitvities
+          #      fallbackuri: forward:/orderFallBack
+        - id: sales-order
+          uri: lb://sales-order
+          predicates:
+            - Path=${context.path}/saleOrder/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: sales-orders
+          #      fallbackuri: forward:/orderFallBack
+        - id: sales-customerpurchase
+          uri: lb://sales-customerpurchase
+          predicates:
+            - Path=${context.path}/salecustomerpurchase/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: sales-orders
+          #      fallbackuri: forward:/orderFallBack 
+        - id: sales-stocktransfer
+          uri: lb://sales-stocktransfer
+          predicates:
+            - Path=${context.path}/salestocktransfer/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: sales-orders
+          #      fallbackuri: forward:/orderFallBack 
+        - id: sales-miscellaneous
+          uri: lb://sales-miscellaneous
+          predicates:
+            - Path=${context.path}/salesmiscellaneous/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: sales-orders
+          #      fallbackuri: forward:/orderFallBack 
+        - id: presales-scheme
+          uri: lb://presales-scheme
+          predicates:
+            - Path=${context.path}/presalescheme/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: presale-scheme
+          #      fallbackuri: forward:/orderFallBack
+        - id: service
+          uri: lb://service
+          predicates:
+            - Path=${context.path}/service/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: service
+          #      fallbackuri: forward:/orderFallBack
+        - id: service-customer
+          uri: lb://service-customer
+          predicates:
+            - Path=${context.path}/servicecustomer/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: service-customer
+          #      fallbackuri: forward:/orderFallBack
+        - id: service-warranty
+          uri: lb://service-warranty
+          predicates:
+            - Path=${context.path}/servicewarranty/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: service-warranty
+          #      fallbackuri: forward:/orderFallBack
+        - id: service-requisition
+          uri: lb://service-requisition
+          predicates:
+            - Path=${context.path}/servicerequisition/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: service-requisition
+          #      fallbackuri: forward:/orderFallBack
+       ######## Sart - Santosh #########
+        - id: service-spare
+          uri: lb://service-spare
+          predicates:
+            - Path=${context.path}/servicespare/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: service-Spare
+          #      fallbackuri: forward:/orderFallBack
+        ######## End - Santosh #########
+        
+        
+        ######## Sart - Santosh #########
+        - id: service-email
+          uri: lb://service-email
+          predicates:
+            - Path=${context.path}/emailService/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: service-Spare
+          #      fallbackuri: forward:/orderFallBack
+        ######## End - Santosh #########
+        
+        
+        
+        
+        
+        - id: service-report
+          uri: lb://service-report
+          predicates:
+            - Path=${context.path}/servicereport/**
+            - Method= POST, GET  
+          filters:
+            - RewritePath=${context.path}(?<segment>/?.*), $\{segment}
+          #  - name: CircuitBreaker
+          #    args:
+          #      name: service-report
+          #      fallbackuri: forward:/orderFallBack
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
+resilience4j.timelimiter:
+  time-limiter-aspect-order: 398
+  configs:
+    default:
+      timeoutDuration: 50s
+      cancelRunningFuture: false
+  instances:
+    backendB:
+      timeoutDuration: 250ms
+  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh,hystrix.stream
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000 
+            
+#logging: 
+#   level: 
+#      org.springframework: DEBUG
+#      com.hitech: DEBUG
+            
+            
+#server:
+#   port: 8080
+#   ssl:
+#      enabled: true
+#      key-store: classpath:vst_dms.p12
+#      key-store-password: VST.2022
+#      key-password: VST.2022
+# JKS or PKCS12
+#      keyStoreType: PKCS12
+# The alias mapped to the certificate
+#      key-alias: vst_intermediate

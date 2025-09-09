@@ -1,0 +1,36 @@
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net  http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<date-format>dd/MM/yyyy HH:mm</date-format>
+		<trim-strings>true</trim-strings>
+	</configuration>
+
+	<mapping map-id="IndentCreateMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.stock.indent.IndentHdrEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.indent.create.request.IndentCreateRequestModel
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="IssueCreateMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.stock.indent.issue.IssueHdrEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.issue.create.request.IssueCreateRequestModel
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="ReceiptCreateMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.stock.indent.receipt.ReceiptHdrEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.stock.receipt.request.ReceiptCreateRequestModel
+		</class-b>
+	</mapping>
+
+</mappings>                                                                                                              
+                                                                                                                         
+                                                                                                                         
+	                                                                                                                     
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         

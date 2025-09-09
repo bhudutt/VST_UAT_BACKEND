@@ -1,0 +1,69 @@
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net  http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<date-format>dd/MM/yyyy HH:mm</date-format>
+		<trim-strings>true</trim-strings>
+	</configuration>
+
+	<!--<mapping map-id="IndentCreateMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.stock.indent.IndentHdrEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.indent.create.request.IndentCreateRequestModel
+		</class-b>
+	</mapping>-->
+	<mapping map-id="jobCardCreate" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.jobcard.jobCardEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.jobcard.request.jobCardCreateRequest
+		</class-b>
+	</mapping>
+	<mapping map-id="jobCardSave" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.jobcard.JobCardDataEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.jobcard.save.request.JobCardCreateRequest
+		</class-b>
+	</mapping>
+	<mapping map-id="customerVoice" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.jobcard.CustomberVoiceEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.jobcard.save.request.CustomberVoiceRequest
+		</class-b>
+	</mapping>
+	<mapping map-id="jobCardDetails" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.jobcard.jobCardDetailsEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.jobcard.save.request.TyreDetailsRequest
+		</class-b>
+	</mapping>
+	<mapping map-id="labourCharge" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.jobcard.LabourChargeEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.jobcard.save.request.LabourChargeRequest
+		</class-b>
+	</mapping>
+	<mapping map-id="outerLabourCharge" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.jobcard.OutSiderLabourChargeEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.jobcard.save.request.OutSiderLabourChargeRequest
+		</class-b>
+	</mapping>
+	<mapping map-id="paintScratch" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.jobcard.PaintEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.jobcard.save.request.PaintRequest
+		</class-b>
+	</mapping>
+	<mapping map-id="PDIcheckpoint" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.jobcard.PdiCheckListEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.jobcard.save.request.PdiChecklistRequest
+		</class-b>
+	</mapping>
+</mappings>                                                                                                              
+                                                                                                                         
+                                                                                                                         
+	                                                                                                                     
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         

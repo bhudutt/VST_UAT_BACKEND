@@ -1,0 +1,36 @@
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net  http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<date-format>dd/MM/yyyy HH:mm</date-format>
+		<trim-strings>true</trim-strings>
+	</configuration>
+
+	<mapping map-id="UserActivityLogMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.user.accesslog.UserActivityLog
+		</class-a>
+		<class-b>com.hitech.dms.web.model.user.activitylog.request.UserActivityLogRequestModel
+		</class-b>
+	</mapping>
+	
+	<mapping map-id="UserAccessLogMapId" type="bi-directional">
+		<class-a>com.hitech.dms.web.entity.user.AccessLogEntity
+		</class-a>
+		<class-b>com.hitech.dms.web.model.user.accesslog.request.AccessLogRequestModel
+		</class-b>
+	</mapping>
+
+	<!-- <mapping map-id="UserRoleMapId" type="bi-directional">
+		<class-a>com.hitech.endurance.web.entity.user.UserRoleEntity
+		</class-a>
+		<class-b>com.hitech.endurance.web.model.admin.UserRoleModel
+		</class-b>
+	</mapping> -->
+	
+</mappings>                                                                                                              
+                                                                                                                         
+                                                                                                                         
+	                                                                                                                     
+                                                                                                                         
+                                                                                                                         
+                                                                                                                         

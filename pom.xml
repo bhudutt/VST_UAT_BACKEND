@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.hitech</groupId>
+	<artifactId>VST-DMS</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>VST DMS</name>
+	<description>Root VST DMS Project</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.6.3</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Hoxton.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<modules>
+		<module>SharedLibrary</module>
+		<module>Micro-Config-Server</module>
+		<module>Micro-Admin-Service</module>
+		<module>Micro-Admin-Report-Service</module>
+		<module>Micro-Auth-Service</module>
+		<module>Micro-Gateway-Service</module>
+		<module>Micro-Eureka-Service</module>
+		<module>Micro-Common-Service</module>
+		<module>Micro-PresaleEnquiry-Report-Service</module>
+		<module>Micro-PresaleEnquiry-Service</module>
+		<module>Micro-PresaleActivity-Report-Service</module>
+		<module>Micro-PresaleActivity-Service</module>
+		<module>Micro-PresaleScheme-Service</module>
+		<module>Micro-SalesOrdering-Service</module>
+		<module>Micro-SalesCustPurchase-Service</module>
+		<module>Micro-SalesStockTransfer-Service</module>
+		<module>Micro-Service</module>
+		<module>Micro-Service-Customer</module>
+		<module>Micro-Service-warranty</module>
+		<module>Micro-Service-Requisition</module>
+		<module>Micro-Service-Report</module>
+	</modules>
+</project>

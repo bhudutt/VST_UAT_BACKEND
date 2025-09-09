@@ -1,0 +1,18 @@
+package com.hitech.dms.web.spare.party.model.mapping.response;
+
+import lombok.Data;
+
+@Data
+public class DistributorDetailResponse {
+
+	private String distributorCode;
+	private String distributorName;
+	private String pinCode;
+	private String district;
+	private String tehsil;
+	private String state;
+	private int statusCode;
+	private String msg;
+
+
+}
