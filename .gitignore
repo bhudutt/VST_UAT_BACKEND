@@ -1,0 +1,29 @@
+# SVN files
+.svn/
+
+# IDE files
+.metadata/
+.settings/
+*.iml
+.idea/
+*.swp
+*.swo
+
+# Build files
+target/
+build/
+*.class
+*.jar
+*.war
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.bak
