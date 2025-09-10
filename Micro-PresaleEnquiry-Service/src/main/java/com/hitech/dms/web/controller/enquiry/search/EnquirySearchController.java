@@ -437,4 +437,32 @@ public class EnquirySearchController {
 		return ResponseEntity.ok(userAuthResponse);
 		 
 	}
+	
+	@PostMapping("/fetchMobileENQList")
+	public ResponseEntity<?> fetchMobileENQList(@RequestBody EnquiryListRequestModel enquiryListRequestModel,
+			OAuth2Authentication authentication) {
+		String userCode = null;
+		if (authentication != null) {
+			userCode = authentication.getUserAuthentication().getName();
+		}
+		HeaderResponse userAuthResponse = new HeaderResponse();
+		MessageCodeResponse codeResponse = new MessageCodeResponse();
+		SimpleDateFormat formatter = getSimpleDateFormat();
+		EnquiryListResultResponseModel responseModel = enquirySearchDao.fetchEnquiryList(userCode,
+				enquiryListRequestModel);
+		if (responseModel != null && responseModel.getEnquiryList() != null
+				&& !responseModel.getEnquiryList().isEmpty()) {
+			codeResponse.setCode("EC200");
+			codeResponse.setDescription("Fetch Enquiry Serach List on " + formatter.format(new Date()));
+			codeResponse.setMessage("Enquiry Serach List Successfully fetched");
+		} else {
+			codeResponse.setCode("EC200");
+			codeResponse.setDescription("Unsuccessful on " + formatter.format(new Date()));
+			codeResponse.setMessage("Enquiry Serach List Not Fetched or server side error.");
+		}
+		userAuthResponse.setResponseCode(codeResponse);
+		userAuthResponse.setResponseData(responseModel);
+		return ResponseEntity.ok(userAuthResponse);
+		 
+	}
 }

@@ -110,7 +110,8 @@ public class EnquirySearchDaoImpl implements EnquirySearchDao {
 					: DateToStringParserUtils.addStratTimeOFTheDay(enquiryListRequestModel.getEnqFlpFromDate())));
 			query.setParameter("enqFlpToDate", (enquiryListRequestModel.getEnqFlpToDate() == null ? null
 					: DateToStringParserUtils.addEndTimeOFTheDay(enquiryListRequestModel.getEnqFlpToDate())));
-			query.setParameter("customerNameMobile", enquiryListRequestModel.getCustomerNameMobile());			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+			query.setParameter("customerNameMobile", enquiryListRequestModel.getCustomerNameMobile());			
+			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			List data = query.list();
 			if (data != null && !data.isEmpty()) {
 				enquiryListResultResponseModel = new EnquiryListResultResponseModel();
