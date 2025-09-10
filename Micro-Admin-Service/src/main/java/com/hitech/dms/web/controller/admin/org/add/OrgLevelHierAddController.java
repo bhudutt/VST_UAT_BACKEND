@@ -5,6 +5,7 @@ package com.hitech.dms.web.controller.admin.org.add;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -58,7 +59,7 @@ public class OrgLevelHierAddController {
 	}
 
 	@PostMapping("/addOrgLevelHier")
-	public ResponseEntity<?> addOrgLevelHier(@Valid @RequestBody OrgLevelHierRequestModel requestModel,
+	public ResponseEntity<?> addOrgLevelHier(@Valid @RequestBody List<OrgLevelHierRequestModel> requestModel,
 			OAuth2Authentication authentication, Device device, HttpServletRequest request) {
 		String userCode = null;
 		if (authentication != null) {

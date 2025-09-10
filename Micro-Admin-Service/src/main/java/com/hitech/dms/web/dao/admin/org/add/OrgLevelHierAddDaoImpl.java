@@ -5,6 +5,7 @@ package com.hitech.dms.web.dao.admin.org.add;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.dozer.DozerBeanMapper;
@@ -42,7 +43,7 @@ public class OrgLevelHierAddDaoImpl implements OrgLevelHierAddDao {
 	private CommonDao commonDao;
 
 	@SuppressWarnings({ "deprecation", "rawtypes" })
-	public OrgLevelHierResponseModel addOrgLevelHier(String userCode, OrgLevelHierRequestModel requestModel,
+	public OrgLevelHierResponseModel addOrgLevelHier(String userCode, List<OrgLevelHierRequestModel> requestModel,
 			Device device) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("addOrgLevelHier invoked..");
@@ -61,20 +62,23 @@ public class OrgLevelHierAddDaoImpl implements OrgLevelHierAddDao {
 			if (mapData != null && mapData.get("SUCCESS") != null) {
 				userId = (BigInteger) mapData.get("userId");
 				Query query = session.createNativeQuery(sqlQuery).addEntity(DealerOrgHierEntity.class);
-				query.setParameter("dealerId", requestModel.getDealerId());
-				query.setParameter("pcId", requestModel.getPcId());
-				query.setParameter("departmentId", requestModel.getDepartmentId());
+				
+				for(OrgLevelHierRequestModel bean : requestModel) {
+				
+				query.setParameter("dealerId", bean.getDealerId());
+				query.setParameter("pcId", bean.getPcId());
+				query.setParameter("departmentId", bean.getDepartmentId());
 				DealerOrgHierEntity dealerOrgHierDBEntity = (DealerOrgHierEntity) query.uniqueResult();
 				if (dealerOrgHierDBEntity != null) {
 					// update
-					dealerOrgHierDBEntity.setOrgHierId(requestModel.getOrgHierId());
+					dealerOrgHierDBEntity.setOrgHierId(bean.getOrgHierId());
 					dealerOrgHierDBEntity.setIsActive(true);
 					dealerOrgHierDBEntity.setModifiedBy(userCode);
 					dealerOrgHierDBEntity.setModifiedDate(new Date());
 
 					session.merge(dealerOrgHierDBEntity);
 				} else {
-					DealerOrgHierEntity dealerOrgHierEntity = mapper.map(requestModel, DealerOrgHierEntity.class,
+					DealerOrgHierEntity dealerOrgHierEntity = mapper.map(bean, DealerOrgHierEntity.class,
 							"AddOrgHierMapId");
 
 					dealerOrgHierEntity.setCreatedBy(userCode);
@@ -82,6 +86,7 @@ public class OrgLevelHierAddDaoImpl implements OrgLevelHierAddDao {
 
 					dealerOrgHierEntity.setIsActive(true);
 					session.save(dealerOrgHierEntity);
+				}
 				}
 			} else {
 				// user not found
