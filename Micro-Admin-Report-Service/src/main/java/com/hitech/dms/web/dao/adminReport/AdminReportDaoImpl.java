@@ -40,7 +40,7 @@ public class AdminReportDaoImpl implements AdminReportDao {
 	@Override
 	public void printReport(JasperPrint jasperPrint, String format, String printStatus, OutputStream outputStream,
 			String reportName) throws JRException {
-		if (format != null && format.equalsIgnoreCase("xls")) {
+		if (format != null && (format.equalsIgnoreCase("xls") || format.equalsIgnoreCase("xlsx"))) {
 			JRXlsxExporter exporter = new JRXlsxExporter();
 			SimpleXlsxReportConfiguration reportConfigXLS = new SimpleXlsxReportConfiguration();
 			reportConfigXLS.setSheetNames(new String[] { "sheet1" });
