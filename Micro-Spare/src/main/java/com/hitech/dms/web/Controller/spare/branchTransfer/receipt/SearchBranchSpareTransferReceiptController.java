@@ -29,12 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hitech.dms.app.api.response.HeaderResponse;
 import com.hitech.dms.app.api.response.MessageCodeResponse;
 import com.hitech.dms.app.config.ConnectionConfiguration;
-import com.hitech.dms.web.model.spare.grn.mapping.response.PartNumberDetailResponse;
-import com.hitech.dms.web.model.spare.grn.mapping.response.PartyCodeDetailResponse;
-import com.hitech.dms.web.service.branchSpareTransfer.indent.BranchSpareTransferIndentServiceImpl;
-import com.hitech.dms.web.service.branchSpareTransfer.issue.BranchSpareTransferIssueService;
+import com.hitech.dms.web.model.spare.branchTransfer.receipt.request.BranchSpareTransferReceiptRequest;
+import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.SearchBranchTransferReceiptResponse;
 import com.hitech.dms.web.service.branchSpareTransfer.receipt.BranchSpareTransferReceiptService;
-import com.hitech.dms.web.service.spareClaim.SpareClaimService;
 import com.lowagie.text.pdf.PdfWriter;
 
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -45,16 +42,6 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
-
-import com.hitech.dms.web.entity.branchTransfer.indent.IndentHdrEntity;
-import com.hitech.dms.web.model.spare.branchTransfer.indent.PartNumberDetails;
-import com.hitech.dms.web.model.spare.branchTransfer.indent.response.BranchSpareTransferIndentHdrResponse;
-import com.hitech.dms.web.model.spare.branchTransfer.indent.response.BranchSpareTransferResponse;
-import com.hitech.dms.web.model.spare.branchTransfer.issue.IndentNumberDetails;
-import com.hitech.dms.web.model.spare.branchTransfer.issue.request.BranchSpareTransferIssueRequest;
-import com.hitech.dms.web.model.spare.branchTransfer.issue.response.BranchSpareTransferIssueHdrResponse;
-import com.hitech.dms.web.model.spare.branchTransfer.receipt.request.BranchSpareTransferReceiptRequest;
-import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.BranchSpareTransferReceiptHdrResponse;
 
 @RestController
 @RequestMapping("/api/v1/branchSpareTransferReceipt/search")
@@ -112,7 +99,7 @@ public class SearchBranchSpareTransferReceiptController {
 		HeaderResponse userAuthResponse = new HeaderResponse();
 		MessageCodeResponse codeResponse = new MessageCodeResponse();
 		SimpleDateFormat formatter = getSimpleDateFormat();
-		List<BranchSpareTransferReceiptHdrResponse> branchSpareTransferReceiptHdrResponseList = 
+		List<SearchBranchTransferReceiptResponse> branchSpareTransferReceiptHdrResponseList = 
 				branchSpareTransferReceiptService.fetchReceiptDetails(receiptNumber, fromDate, toDate);
 		if (branchSpareTransferReceiptHdrResponseList != null) {
 			codeResponse.setCode("EC200");
@@ -127,6 +114,8 @@ public class SearchBranchSpareTransferReceiptController {
 		userAuthResponse.setResponseData(branchSpareTransferReceiptHdrResponseList);
 		return ResponseEntity.ok(userAuthResponse);
 	}
+	
+	
 	
 	@PostMapping("/exportSpareBranchTransferReceipt")
 	public void exportSpareBranchTransferReceipt(@RequestBody BranchSpareTransferReceiptRequest branchSpareTransferReceiptRequest,

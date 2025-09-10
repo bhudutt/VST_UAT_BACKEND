@@ -15,19 +15,20 @@ import com.hitech.dms.web.model.spare.branchTransfer.issue.response.BranchSpareT
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.request.BranchSpareTransferReceiptRequest;
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.BranchSpareTransferReceiptHdrResponse;
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.BranchSpareTransferReceiptResponse;
+import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.SearchBranchTransferReceiptResponse;
 
 public interface BranchSpareTransferReceiptDao {
 
 	HashMap<BigInteger, String> fetchBranchStoreList(int indentToBranchId, String userCode);
 
-	HashMap<BigInteger, String> searchBinName(String searchText, Integer indentToBranchId, String userCode);
+	HashMap<BigInteger, String> searchBinName(String searchText, Integer indentToBranchId, Integer partId, String userCode);
 
 	BranchSpareTransferResponse createBranchSpareTransferReceipt(
 			BranchSpareTransferReceiptRequest BranchSpareTransferReceiptRequest, String userCode);
 
 	HashMap<BigInteger, String> searchReceiptNumber(String searchText, String userCode);
 
-	List<BranchSpareTransferReceiptHdrResponse> fetchReceiptDetails(String receiptNumber, BigInteger paReceiptId,
+	List<SearchBranchTransferReceiptResponse> searchReceiptDetails(String receiptNumber, BigInteger paReceiptId,
 			Date fromDate, Date toDate);
 
 	BranchSpareTransferReceiptResponse fetchReceiptTransferHdrAndDtl(BigInteger paReceiptId);

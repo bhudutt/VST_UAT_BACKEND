@@ -103,7 +103,7 @@ public class CreateBranchSpareTransferReceiptController {
 	
 	@GetMapping("/searchBinName")
 	public ResponseEntity<?> searchBinName(@RequestParam() String searchText,
-			@RequestParam() Integer indentToBranchId, OAuth2Authentication authentication,
+			@RequestParam() Integer indentToBranchId,@RequestParam() Integer partId, OAuth2Authentication authentication,
 			Device device, HttpServletRequest request) {
 		String userCode = null;
 		if (authentication != null) {
@@ -113,7 +113,7 @@ public class CreateBranchSpareTransferReceiptController {
 		MessageCodeResponse codeResponse = new MessageCodeResponse();
 		SimpleDateFormat formatter = getSimpleDateFormat();
 		HashMap<BigInteger, String> spareGrnFromResponseList = 
-				branchSpareTransferReceiptService.searchBinName(searchText, indentToBranchId, userCode);
+				branchSpareTransferReceiptService.searchBinName(searchText, indentToBranchId, partId, userCode);
 		if (spareGrnFromResponseList != null && !spareGrnFromResponseList.isEmpty()) {
 			codeResponse.setCode("EC200");
 			codeResponse.setDescription("Header List on " + formatter.format(new Date()));

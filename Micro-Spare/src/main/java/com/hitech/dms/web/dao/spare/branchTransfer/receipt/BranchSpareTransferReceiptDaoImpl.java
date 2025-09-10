@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,24 +22,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Repository;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.hitech.dms.constants.WebConstants;
-import com.hitech.dms.web.entity.branchTransfer.indent.IndentDtlEntity;
-import com.hitech.dms.web.entity.branchTransfer.indent.IndentHdrEntity;
-import com.hitech.dms.web.entity.branchTransfer.issue.IssueHdrEntity;
 import com.hitech.dms.web.entity.branchTransfer.receipt.ReceiptHdrEntity;
 import com.hitech.dms.web.model.common.GeneratedNumberModel;
-import com.hitech.dms.web.model.spare.branchTransfer.indent.response.BranchSpareTransferIndentHdrResponse;
 import com.hitech.dms.web.model.spare.branchTransfer.indent.response.BranchSpareTransferResponse;
 import com.hitech.dms.web.model.spare.branchTransfer.issue.IndentNumberDetails;
-import com.hitech.dms.web.model.spare.branchTransfer.issue.request.BranchSpareTransferIssueRequest;
-import com.hitech.dms.web.model.spare.branchTransfer.issue.response.BranchSpareTransferIssueHdrResponse;
-import com.hitech.dms.web.model.spare.branchTransfer.issue.response.BranchSpareTransferIssueResponse;
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.ReceiptIndentDtlDetails;
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.request.BranchSpareTransferReceiptRequest;
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.BranchSpareTransferReceiptHdrResponse;
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.BranchSpareTransferReceiptResponse;
+import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.SearchBranchTransferReceiptResponse;
 
 @Repository
 public class BranchSpareTransferReceiptDaoImpl implements BranchSpareTransferReceiptDao {
@@ -58,7 +49,7 @@ public class BranchSpareTransferReceiptDaoImpl implements BranchSpareTransferRec
 		String grnNumber = null;
 		HashMap<BigInteger, String> searchList = null;
 		Query query = null;
-		String sqlQuery = "exec [PA_Search_Issue_Number] :searchText, :userCode";
+		String sqlQuery = "exec [PA_Search_Issue_Number_by_receipt] :searchText, :userCode";
 
 		try {
 			session = sessionFactory.openSession();
@@ -119,17 +110,18 @@ public class BranchSpareTransferReceiptDaoImpl implements BranchSpareTransferRec
 	}
 
 	@Override
-	public HashMap<BigInteger, String> searchBinName(String searchText, Integer indentToBranchId, String userCode) {
+	public HashMap<BigInteger, String> searchBinName(String searchText, Integer indentToBranchId, Integer partId, String userCode) {
 		Session session = null;
 		HashMap<BigInteger, String> searchList = null;
 		Query query = null;
-		String sqlQuery = "exec [PA_Search_BinName] :searchText, :indentToBranchId";
+		String sqlQuery = "exec [PA_Search_BinName] :searchText, :indentToBranchId, :partId";
 
 		try {
 			session = sessionFactory.openSession();
 			query = session.createSQLQuery(sqlQuery);
 			query.setParameter("searchText", searchText);
 			query.setParameter("indentToBranchId", indentToBranchId);
+			query.setParameter("partId", partId);
 
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			List data = query.list();
@@ -403,8 +395,65 @@ public class BranchSpareTransferReceiptDaoImpl implements BranchSpareTransferRec
 		}
 		return mapData;
 	}
-
+	
 	@Override
+	public List<SearchBranchTransferReceiptResponse> searchReceiptDetails(
+	        String receiptNumber, BigInteger paReceiptId, Date fromDate, Date toDate) {
+
+	    List<SearchBranchTransferReceiptResponse> responseList = new ArrayList<>();
+	    Session session = null;
+
+	    try {
+	        session = sessionFactory.openSession();
+
+	        String sqlQuery = "exec [PA_Get_Branch_Transfer_Receipt_Search] :receiptNumber, :paReceiptId, :fromDate, :toDate, :page, :size";
+
+	        Query query = session.createSQLQuery(sqlQuery)
+	                .setParameter("receiptNumber", receiptNumber)
+	                .setParameter("paReceiptId", paReceiptId)
+	                .setParameter("fromDate", fromDate != null ? new SimpleDateFormat("yyyy-MM-dd").format(fromDate) : null)
+	                .setParameter("toDate", toDate != null ? new SimpleDateFormat("yyyy-MM-dd").format(toDate) : null)
+	                .setParameter("page", 1)
+	                .setParameter("size", 10);
+
+	        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+
+	        List data = query.list();
+	        for (Object object : data) {
+	            Map row = (Map) object;
+	            SearchBranchTransferReceiptResponse resp = new SearchBranchTransferReceiptResponse();
+
+	            resp.setId((BigInteger) row.get("pa_receipt_id"));
+	            resp.setPaIndHdrId((BigInteger) row.get("paIndHdrId"));
+	            resp.setReceiptNumber((String) row.get("ReceiptNumber"));
+	            resp.setReceiptDate((Date) row.get("ReceiptDate"));
+	            resp.setReceiptRemarks((String) row.get("ReceiptRemarks"));
+	            resp.setReceiptBy((String) row.get("ReceiptBy"));
+	            resp.setOtherCharges((String) row.get("OtherCharges"));
+	            resp.setIssueNumber((String) row.get("IssueNumber"));
+	            resp.setIssueDate((Date) row.get("IssueDate"));
+	            resp.setIssueBy((String) row.get("IssueBy"));
+	            resp.setIssueByBranch((String) row.get("issueByBranch"));
+	            resp.setIssueRemarks((String) row.get("IssueRemarks"));
+	            resp.setIndentOnBranchId((Integer) row.get("IndentOnBranchId"));
+
+	            responseList.add(resp);
+	        }
+
+	    } catch (Exception e) {
+	        logger.error(this.getClass().getName(), e);
+	    } finally {
+	        if (session != null && session.isOpen()) {
+	            session.close();
+	        }
+	    }
+
+	    return responseList.isEmpty() ? null : responseList;
+	}
+
+
+
+//	@Override
 	public List<BranchSpareTransferReceiptHdrResponse> fetchReceiptDetails(String receiptNumber, BigInteger paReceiptId,
 			Date fromDate, Date toDate) {
 		Session session = null;
@@ -455,7 +504,7 @@ public class BranchSpareTransferReceiptDaoImpl implements BranchSpareTransferRec
 				for (Object object : data) {
 					Map row = (Map) object;
 					branchSpareTransferReceiptHdrResponse = new BranchSpareTransferReceiptHdrResponse();
-
+					
 					branchSpareTransferReceiptHdrResponse.setId((BigInteger) row.get("pa_receipt_id"));
 					branchSpareTransferReceiptHdrResponse.setPaIndHdrId((BigInteger) row.get("paIndHdrId"));
 					branchSpareTransferReceiptHdrResponse.setReceiptNumber((String) row.get("ReceiptNumber"));
@@ -466,8 +515,8 @@ public class BranchSpareTransferReceiptDaoImpl implements BranchSpareTransferRec
 					branchSpareTransferReceiptHdrResponse.setIssueNumber((String) row.get("IssueNumber"));
 					branchSpareTransferReceiptHdrResponse.setIssueDate((Date) row.get("IssueDate"));
 					branchSpareTransferReceiptHdrResponse.setIssueBy((String) row.get("IssueBy"));
-					branchSpareTransferReceiptHdrResponse.setIssueByBranch((String) row.get("issueByBranch"));
-					branchSpareTransferReceiptHdrResponse.setIssueRemarks((String) row.get("IssueRemarks"));
+					branchSpareTransferReceiptHdrResponse.setIssueByBranch((String) row.get("IssueByBranch"));
+					branchSpareTransferReceiptHdrResponse.setIssueRemarks((String) row.get("issueRemarks"));
 					branchSpareTransferReceiptHdrResponse.setIndentOnBranchId((Integer) row.get("IndentOnBranchId"));
 					branchSpareTransferReceiptHdrResponseList.add(branchSpareTransferReceiptHdrResponse);
 				}

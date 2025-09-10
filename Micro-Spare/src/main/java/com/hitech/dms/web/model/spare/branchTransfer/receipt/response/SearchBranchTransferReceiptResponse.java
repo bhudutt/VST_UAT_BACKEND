@@ -3,24 +3,19 @@ package com.hitech.dms.web.model.spare.branchTransfer.receipt.response;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Data;
 
 @Data
-public class BranchSpareTransferReceiptHdrResponse {
+public class SearchBranchTransferReceiptResponse {
 
 	private BigInteger id;
 	private String receiptNumber;
 	private BigInteger paIndHdrId;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date receiptDate;
 	private String receiptRemarks;
 	private String receiptBy;
 	private String OtherCharges;
 	private String issueNumber;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date issueDate;
 	private String issueBy;
 	private String issueByBranch;

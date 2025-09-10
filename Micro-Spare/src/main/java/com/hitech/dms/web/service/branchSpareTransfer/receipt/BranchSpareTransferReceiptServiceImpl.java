@@ -20,6 +20,7 @@ import com.hitech.dms.web.model.spare.branchTransfer.issue.response.BranchSpareT
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.request.BranchSpareTransferReceiptRequest;
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.BranchSpareTransferReceiptHdrResponse;
 import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.BranchSpareTransferReceiptResponse;
+import com.hitech.dms.web.model.spare.branchTransfer.receipt.response.SearchBranchTransferReceiptResponse;
 
 @Service
 public class BranchSpareTransferReceiptServiceImpl implements BranchSpareTransferReceiptService {
@@ -40,8 +41,8 @@ public class BranchSpareTransferReceiptServiceImpl implements BranchSpareTransfe
 	}
 
 	@Override
-	public HashMap<BigInteger, String> searchBinName(String searchText,Integer indentToBranchId, String userCode) {
-		return branchSpareTransferReceiptDao.searchBinName(searchText, indentToBranchId, userCode);
+	public HashMap<BigInteger, String> searchBinName(String searchText,Integer indentToBranchId, Integer partId, String userCode) {
+		return branchSpareTransferReceiptDao.searchBinName(searchText, indentToBranchId, partId, userCode);
 	}
 
 
@@ -56,9 +57,9 @@ public class BranchSpareTransferReceiptServiceImpl implements BranchSpareTransfe
 	}
 
 	@Override
-	public List<BranchSpareTransferReceiptHdrResponse> fetchReceiptDetails(String receiptNumber, Date fromDate,
+	public List<SearchBranchTransferReceiptResponse> fetchReceiptDetails(String receiptNumber, Date fromDate,
 			Date toDate) {
-		return branchSpareTransferReceiptDao.fetchReceiptDetails(receiptNumber, null, fromDate, toDate);
+		return branchSpareTransferReceiptDao.searchReceiptDetails(receiptNumber, null, fromDate, toDate);
 	}
 
 	@Override
