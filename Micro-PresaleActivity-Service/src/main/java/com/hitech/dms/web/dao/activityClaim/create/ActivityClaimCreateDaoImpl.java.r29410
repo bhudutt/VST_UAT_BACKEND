@@ -242,11 +242,7 @@ public class ActivityClaimCreateDaoImpl implements ActivityClaimCreateDao {
 						files.forEach(m -> {
 							String filePath = fileStorageProperties.getUploadDirMain()
 									+ messageSource.getMessage("activityClaim.file.upload.dir",
-
-											
-
 											new Object[] { String.valueOf(aclaimHdrId) }, LocaleContextHolder.getLocale());
-
 							Map<String, String> fileMapData  = FileUtils.uploadDOCDTLDOCS(filePath, m);
 							System.out.println(fileMapData);
 							//FileUtils.uploadDOCDTLDOCS(filePath, m);
@@ -306,7 +302,7 @@ public class ActivityClaimCreateDaoImpl implements ActivityClaimCreateDao {
 		Query query = null;
 		BigInteger mailItemId = null; 
 		String sqlQuery = "exec [SP_MAIL_SA_ACTIVITY_PLAN_CLAIM] :userCode, :eventName, :refId, :isIncludeActive";
-		mapData.put("ERROR", "ERROR WHILE INSERTING ACTIVITY CLAIM SUBMISSION MAIL TRIGGERS.");
+		mapData.put("ERROR", "ERROR WHILE INSERTING VALIDATED ENQUIRY MAIL TRIGGERS..");
 		try {
 			session = sessionFactory.openSession();
 			query = session.createNativeQuery(sqlQuery);
@@ -326,10 +322,10 @@ public class ActivityClaimCreateDaoImpl implements ActivityClaimCreateDao {
 				mapData.put("msg", msg);
 			}
 		} catch (SQLGrammarException ex) {
-			mapData.put("ERROR", "ERROR WHILE INSERTING ACTIVITY CLAIM SUBMISSION MAIL TRIGGERS.");
+			mapData.put("ERROR", "ERROR WHILE INSERTING ACTIVITY PLAN SUBMISSION MAIL TRIGGERS.");
 			logger.error(this.getClass().getName(), ex);
 		} catch (Exception ex) {
-			mapData.put("ERROR", "ERROR WHILE INSERTING ACTIVITY CLAIM SUBMISSION MAIL TRIGGERS.");
+			mapData.put("ERROR", "ERROR WHILE INSERTING ACTIVITY PLAN SUBMISSION MAIL TRIGGERS.");
 			logger.error(this.getClass().getName(), ex);
 		} finally {
 			if (session != null) {

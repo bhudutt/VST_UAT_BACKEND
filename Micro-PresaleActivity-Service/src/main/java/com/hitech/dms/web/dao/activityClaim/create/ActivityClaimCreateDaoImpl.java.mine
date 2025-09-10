@@ -242,11 +242,7 @@ public class ActivityClaimCreateDaoImpl implements ActivityClaimCreateDao {
 						files.forEach(m -> {
 							String filePath = fileStorageProperties.getUploadDirMain()
 									+ messageSource.getMessage("activityClaim.file.upload.dir",
-
-											
-
-											new Object[] { String.valueOf(aclaimHdrId) }, LocaleContextHolder.getLocale());
-
+											new Object[] { aclaimHdrId.toString() }, LocaleContextHolder.getLocale());
 							Map<String, String> fileMapData  = FileUtils.uploadDOCDTLDOCS(filePath, m);
 							System.out.println(fileMapData);
 							//FileUtils.uploadDOCDTLDOCS(filePath, m);

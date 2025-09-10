@@ -44,16 +44,16 @@ public class ActivitySearchCreditNoteDaoImpl implements ActivitySearchCreditNote
 		SearchActivityCreditNoteResultResponseModel responseModel = null;
 		List<SearchActivityCreditNoteResponseModel> responseModelList = null;
 		Integer recordCount = 0;
-		String sqlQuery = "exec [sp_sa_credit_note]  :FromDate, :ToDate, :vendorinvoiceno";
+		String sqlQuery = "exec [sp_sa_credit_note] :userCode, :FromDate, :ToDate, :vendorinvoiceno, :page, :size";
 		try {
 			session = sessionFactory.openSession();
 			query = session.createSQLQuery(sqlQuery);
-			//query.setParameter("userCode", userCode);
+			query.setParameter("userCode", userCode);
 			query.setParameter("FromDate", searchActivityCreditNoteRequestModel.getFromDate());
 			query.setParameter("ToDate", searchActivityCreditNoteRequestModel.getToDate());
 			query.setParameter("vendorinvoiceno", searchActivityCreditNoteRequestModel.getVendorinvoiceno());
-//			query.setParameter("page", searchActivityCreditNoteRequestModel.getPage());
-//			query.setParameter("size", searchActivityCreditNoteRequestModel.getSize());
+			query.setParameter("page", searchActivityCreditNoteRequestModel.getPage());
+			query.setParameter("size", searchActivityCreditNoteRequestModel.getSize());
 			query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 			List data = query.list();
 			if (data != null && !data.isEmpty()) {
@@ -63,7 +63,7 @@ public class ActivitySearchCreditNoteDaoImpl implements ActivitySearchCreditNote
 				for (Object object : data) {
 					Map row = (Map) object;
 					searchModel = new SearchActivityCreditNoteResponseModel();
-					searchModel.setVendorinvoiceno((String) row.get("vendorinvoiceno"));
+					
 					searchModel.setActivityNumber((String) row.get("ActivityNumber"));
 					searchModel.setActivityCreationDate((String) row.get("ActivityCreationDate"));
 					searchModel.setActivityMonth((Integer) row.get("ActivityMonth"));
@@ -71,13 +71,14 @@ public class ActivitySearchCreditNoteDaoImpl implements ActivitySearchCreditNote
 					searchModel.setTotalBudget((BigDecimal) row.get("TotalBudget"));
 					searchModel.setApprovedBudget((BigDecimal) row.get("ApprovedBudget"));
 					searchModel.setReimbursementClaim((BigDecimal) row.get("ReimbursementClaim"));
-					    
+					searchModel.setDescription((String)row.get("Description"));  
 					searchModel.setCreditNoteNo((String) row.get("CreditNoteNo"));
-					searchModel.setCreditNoteAmount((BigDecimal) row.get("CreditNoteAmount"));
+					searchModel.setCreditNoteAmount((BigDecimal) row.get("CreditNoteAmount")); 
 					searchModel.setCreditNoteDate((Date) row.get("CreditNoteDate"));
-					searchModel.setActivityInvoiceNo((String) row.get("ActivityInvoiceNo"));
-					searchModel.setActivityInvoiceDate((Date) row.get("ActivityInvoiceDate"));
-					searchModel.setVendorCode((String) row.get("VendorCode"));
+					searchModel.setActivityInvoiceNo((String) row.get("ActivityClaimInvNumber"));
+					searchModel.setActivityInvoiceDate((Date) row.get("ClaimInvoiceDate"));
+//					searchModel.setVendorCode((String) row.get("VendorCode"));
+					searchModel.setVendorinvoiceno((String) row.get("vendorinvoiceno"));
 					
 					
 					recordCount++;

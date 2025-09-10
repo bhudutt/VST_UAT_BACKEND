@@ -18,4 +18,8 @@ public class SearchActivityCreditNoteRequestModel {
 	private Date ToDate;
 	
 	private String vendorinvoiceno;
+	
+	private Integer page;
+	
+	private Integer size;
 }
