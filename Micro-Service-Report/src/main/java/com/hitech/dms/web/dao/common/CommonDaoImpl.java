@@ -4,6 +4,7 @@
 package com.hitech.dms.web.dao.common;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,13 @@ import com.hitech.dms.web.model.models.response.ModelByPcIdResponseModel;
 import com.hitech.dms.web.model.productModels.ModelsForSeriesSegmentRequestModel;
 import com.hitech.dms.web.model.productModels.ModelsForSeriesSegmentResponseModel;
 import com.hitech.dms.web.service.client.CommonServiceClient;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 /**
  * @author dinesh.jakhar
@@ -284,5 +292,19 @@ public class CommonDaoImpl implements CommonDao {
 		List<T> ts = mapper.readValue(json, listType);
 		logger.debug("class name: {}", ts.get(0).getClass().getName());
 		return ts;
+	}
+
+	@Override
+	public void printReport(JasperPrint jasperPrint, String format, String printStatus, OutputStream outputStream) throws JRException {
+		
+		JRXlsxExporter exporter = new JRXlsxExporter();
+		SimpleXlsxReportConfiguration reportConfigXLS = new SimpleXlsxReportConfiguration();
+        reportConfigXLS.setSheetNames(new String[] { "sheet1" });
+        exporter.setConfiguration(reportConfigXLS);
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+       
+        exporter.exportReport();
+		
 	}
 }

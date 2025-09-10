@@ -1,0 +1,7 @@
+package com.hitech.dms.app.config.persistence;
+
+import java.sql.Connection;
+
+public interface ConnectionConfiguration {
+	public Connection getConnection();
+}

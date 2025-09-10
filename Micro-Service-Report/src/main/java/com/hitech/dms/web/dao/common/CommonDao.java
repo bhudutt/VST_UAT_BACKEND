@@ -1,5 +1,6 @@
 package com.hitech.dms.web.dao.common;
 
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,9 @@ import com.hitech.dms.web.model.dealerdtl.response.DealerDTLResponseModel;
 import com.hitech.dms.web.model.geo.response.GeoStateDTLResponseModel;
 import com.hitech.dms.web.model.models.response.ModelByPcIdResponseModel;
 import com.hitech.dms.web.model.productModels.ModelsForSeriesSegmentResponseModel;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
 
 public interface CommonDao {
 
@@ -31,4 +35,13 @@ public interface CommonDao {
 	
 	public List<ModelsForSeriesSegmentResponseModel> fetchModelsForSeriesSegment(String authorizationHeader,
 			Integer pcId, String seriesName, String segment);
+	/**
+	 * @param jasperPrint
+	 * @param format
+	 * @param printStatus
+	 * @param outputStream
+	 * @throws JRException 
+	 */
+	public void printReport(JasperPrint jasperPrint, String format, String printStatus, OutputStream outputStream) throws JRException;
+
 }
